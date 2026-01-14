@@ -57,3 +57,65 @@ The Polar Plot below demonstrates the algorithm's effectiveness:
 * **Pandas** (Data manipulation, Binning, Merge, Groupby)
 * **Matplotlib / Seaborn** (Engineering visualizations, Polar plots)
 * **NumPy** (Vectorized calculations)
+-----------------------------------------------------------------------------------------------------------------------
+
+Phase 2: Machine Learning & Predictive Maintenance
+
+After establishing the Golden Dataset, the project moved into the modeling phase with the goal of creating a Digital Twin of the wind turbine.
+
+1. Model Selection & Training
+
+The initial approach using Linear Regression proved insufficient, as it failed to capture the non-linear S-shaped power curve characteristic of turbine behavior.
+To address this, the model was upgraded to a Random Forest Regressor.
+
+Algorithm: Random Forest (Ensemble Learning)
+
+Hyperparameters:
+
+max_depth
+
+min_samples_leaf
+Tuned to reduce overfitting while preserving sensitivity to subtle variations in the power curve.
+
+Performance
+
+R² Score: 0.99
+The model explains 99% of the variance in turbine power output.
+
+MAE: ~70 kW
+Average prediction error below 2% of the turbine’s maximum capacity.
+
+![Regression](./images/regression_fit.png)
+
+2. Anomaly Detection System (The “Judge”)
+
+The trained model was used to simulate ideal turbine behavior on historical raw data, including data points previously rejected during cleaning.
+
+Logic:
+
+Deviation
+=
+Actual Power
+−
+Predicted Power
+Deviation=Actual Power−Predicted Power
+
+Threshold:
+Deviations lower than -500 kW were flagged as anomalies.
+
+This approach allows the model to act as a reference baseline, identifying significant underperformance relative to expected behavior.
+
+3. Business Results
+
+The anomaly detection system automatically identified 2,156 incidents of underperformance, categorized into:
+
+Downtimes:
+High wind conditions with zero power output (total production loss).
+
+Curtailments / Derating:
+Turbine operating at reduced, partial capacity.
+
+Sensor or Component Faults:
+Subtle deviations indicating issues such as icing or turbine misalignment.
+
+![Regression](./images/anomalies_chart.png)
